@@ -1,7 +1,11 @@
 <template>
-  <Tutorial/>
+	<div class="container">
+		<p class="lead">Welcome, Caesar!</p>
+	</div>
 </template>
 
 <script>
-export default {}
+	export default {
+		auth: false,
+	}
 </script>
