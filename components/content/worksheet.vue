@@ -26,8 +26,8 @@ export default {
 		}
 	},
 
-	mounted() {
-		this.$store.dispatch('worksheet/get', this.content.id)
+	async fetch() {
+		await this.$store.dispatch('worksheet/get', this.content.id)
 	}
 }
 </script>

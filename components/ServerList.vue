@@ -33,6 +33,10 @@
 						name: 'Development',
 						endpoint: 'https://dev.anatomylearningfkuh.com/api',
 					},
+					{
+						name: 'Local',
+						endpoint: 'https://anatomi.test/api',
+					},
 				]
 			}
 		},

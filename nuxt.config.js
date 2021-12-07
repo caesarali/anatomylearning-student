@@ -24,7 +24,8 @@ export default {
 	css: [],
 
 	plugins: [
-		'~/plugins/axios'
+		'~/plugins/axios',
+		'~/plugins/inject',
 	],
 
 	components: true,
@@ -51,6 +52,7 @@ export default {
 	auth: {
 		redirect: {
 			login: '/auth/login',
+			home: '/home'
 		},
 		strategies: {
 			laravelSanctum: {

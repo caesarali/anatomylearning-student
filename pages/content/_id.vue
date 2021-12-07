@@ -33,14 +33,14 @@ export default {
 
 	computed: {
 		id() {
-			return this.$route.params.content;
+			return this.$route.params.id;
 		},
 		content() {
 			return this.$store.state.content.item
 		}
 	},
 
-	mounted() {
+	async fetch() {
 		this.$store.dispatch('content/show', this.id)
 		this.$store.commit('worksheet/reset')
 	},

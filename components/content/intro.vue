@@ -1,12 +1,12 @@
 <template>
-	<p>{{ content.introduction }}</p>
+	<p>{{ intro }}</p>
 </template>
 
 <script>
 export default {
 	computed: {
-		content() {
-			return this.$store.state.content.item
+		intro() {
+			return this.$store.state.content.item.introduction
 		}
 	}
 }

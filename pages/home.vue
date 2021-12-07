@@ -25,9 +25,9 @@ export default {
 		}
 	},
 
-	mounted() {
-		this.$store.dispatch('content/get')
-		this.$store.commit('content/setItem', {})
+	async fetch() {
+		await this.$store.dispatch('content/get')
+		await this.$store.commit('content/setItem', {})
 	}
 }
 </script>
