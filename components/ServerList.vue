@@ -5,7 +5,7 @@
 		<div class="row justify-content-center">
 			<div class="col-md-4">
 				<ul class="list-group">
-					<a href="#" class="list-group-item list-group-item-action" :class="{ active: server.endpoint == baseURL }" v-for="server in servers" :key="server.name" @click.prevent="setbaseURL(server.endpoint)">
+					<a href="#" class="list-group-item list-group-item-action" :class="{ active: server.endpoint == baseURL }" v-for="server in servers" :key="server.name" @click.prevent="setBaseURL(server.endpoint)">
 						{{ server.name }}
 					</a>
 				</ul>
@@ -42,13 +42,13 @@
 		},
 
 		methods: {
-			setbaseURL(endpoint) {
+			setBaseURL(endpoint) {
 				this.$auth.$storage.setUniversal('base-url', endpoint)
 				this.baseURL = endpoint
 			}
 		},
 
-		mounted() {
+		fetch() {
 			this.baseURL = this.$auth.$storage.getUniversal('base-url')
 		}
 	}

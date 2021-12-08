@@ -26,6 +26,7 @@ export default {
 	plugins: [
 		'~/plugins/axios',
 		'~/plugins/inject',
+		'~/plugins/toast'
 	],
 
 	components: true,
@@ -42,7 +43,7 @@ export default {
 	],
 
 	router: {
-		middleware: ['auth']
+		middleware: ['auth', 'base-url']
 	},
 
 	axios: {
@@ -52,7 +53,8 @@ export default {
 	auth: {
 		redirect: {
 			login: '/auth/login',
-			home: '/home'
+			logout: '/',
+			home: false,
 		},
 		strategies: {
 			laravelSanctum: {
