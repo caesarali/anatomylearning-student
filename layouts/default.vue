@@ -1,5 +1,8 @@
 <template>
 	<div>
+		<AlertConfirmToSubmit ref="confirmToSubmit" />
+		<AlertConfirmToDelete ref="confirmToDelete" />
+
 		<header class="shadow-sm">
 			<b-navbar toggleable="sm" variant="faded" type="light">
 				<div class="container">

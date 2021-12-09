@@ -26,7 +26,9 @@ export default {
 	plugins: [
 		'~/plugins/axios',
 		'~/plugins/inject',
-		'~/plugins/toast'
+		'~/plugins/toast',
+		'~/plugins/confirm',
+		'~/plugins/errors',
 	],
 
 	components: true,

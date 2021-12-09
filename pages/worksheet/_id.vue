@@ -81,7 +81,7 @@
 </style>
 
 <script>
-import Error from '~/plugins/error'
+import Error from '~/libs/error'
 export default {
 	data: () => ({
 		index: 0,
