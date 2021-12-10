@@ -1,5 +1,11 @@
+import Confirm from '@/components/alert/Confirm.vue'
+
 const confirm = {
-	toSubmit() {
+	title: '',
+	message: '',
+	type: '',
+
+	async toSubmit() {
 		$nuxt.$bvModal.show('confirmToSubmit')
 	},
 

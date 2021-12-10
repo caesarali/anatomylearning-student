@@ -1,16 +1,16 @@
 <template>
 	<div class="container">
-		<p class="lead">Content List.</p>
+		<p class="lead">Hi, {{ $auth.user.name }}.</p>
 
 		<div class="row">
 			<div class="col">
 				<div class="py-2" :class="{ 'border-top': index > 0 }" v-for="(content, index) in contents" :key="content.id">
-					<h3 class="lead">
-						<NuxtLink :to="`/content/${content.id}`">
-							# {{ content.topic }}
+					<p class="lead mb-1">
+						<NuxtLink :to="`/content/${content.id}`" class="text-success text-decoration-none">
+							{{ content.topic }}
 						</NuxtLink>
-					</h3>
-					<p class="text-secondary">{{ content.introduction }}</p>
+					</p>
+					<p class="text-secondary" v-html="content.introduction"></p>
 				</div>
 			</div>
 		</div>

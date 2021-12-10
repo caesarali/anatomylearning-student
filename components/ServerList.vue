@@ -1,16 +1,10 @@
 <template>
 	<div>
-		<p class="lead text-center">Choose server:</p>
-
-		<div class="row justify-content-center">
-			<div class="col-md-4">
-				<ul class="list-group">
-					<a href="#" class="list-group-item list-group-item-action" :class="{ active: server.endpoint == baseURL }" v-for="server in servers" :key="server.name" @click.prevent="setBaseURL(server.endpoint)">
-						{{ server.name }}
-					</a>
-				</ul>
-			</div>
-		</div>
+		<ul class="list-group list-group-flush">
+			<a href="#" class="list-group-item list-group-item-action" :class="{ active: server.endpoint == baseURL }" v-for="server in servers" :key="server.name" @click.prevent="setBaseURL(server.endpoint)">
+				{{ server.name }}
+			</a>
+		</ul>
 	</div>
 </template>
 

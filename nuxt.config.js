@@ -1,5 +1,5 @@
 export default {
-	ssr: false,
+	// ssr: false,
 	target: 'static',
 
 	head: {
@@ -17,11 +17,16 @@ export default {
 				content: 'telephone=no'
 			}
 		],
-		link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+		link: [
+			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+			{ rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700' }
+		]
 	},
 
 	// Global CSS: https://go.nuxtjs.dev/config-css
-	css: [],
+	css: [
+		'@/assets/scss/app'
+	],
 
 	plugins: [
 		'~/plugins/axios',
@@ -54,9 +59,7 @@ export default {
 
 	auth: {
 		redirect: {
-			login: '/auth/login',
-			logout: '/',
-			home: false,
+			login: '/auth/login'
 		},
 		strategies: {
 			laravelSanctum: {

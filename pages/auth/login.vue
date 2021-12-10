@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import Error from '~/plugins/error'
+import Error from '~/libs/error'
 export default {
 	auth: 'guest',
 	data: () => ({

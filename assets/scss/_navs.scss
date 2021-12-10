@@ -1,0 +1,16 @@
+.nav-custom {
+    border-bottom: 1px solid #dee2e6;
+
+    .nav-link {
+        margin-bottom: -1px;
+        color: $secondary !important;
+
+        &.active {
+            color: $success !important;
+        }
+
+        &.active, &:hover {
+            border-bottom: 2px  solid $success !important;
+        }
+    }
+}
