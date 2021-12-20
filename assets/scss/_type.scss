@@ -1,0 +1,12 @@
+$lines: 1, 2, 3;
+
+.text-truncate {
+	@each $line in $lines {
+		&.text-truncate-#{$line} {
+			display: -webkit-box;
+			-webkit-line-clamp: $line;
+			-webkit-box-orient: vertical;
+			white-space: normal;
+		}
+	}
+}

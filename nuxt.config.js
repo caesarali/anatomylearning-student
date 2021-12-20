@@ -1,5 +1,5 @@
 export default {
-	// ssr: false,
+	ssr: false,
 	target: 'static',
 
 	head: {
@@ -50,7 +50,8 @@ export default {
 	],
 
 	router: {
-		middleware: ['auth', 'base-url']
+		middleware: ['auth', 'base-url'],
+		linkActiveClass: 'active'
 	},
 
 	axios: {

@@ -41,10 +41,10 @@
 							<input type="checkbox" class="custom-control-input" id="customCheck1">
 							<label class="custom-control-label" for="customCheck1">Remember me</label>
 						</div>
-						<button type="submit" class="btn btn-success">
-							<svg width="24" height="24" class="align-top" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-							</svg>
+						<button type="submit" class="btn btn-success" :disabled="this.$nuxt.$loading.show">
+							<div class="spinner-border spinner-border-sm" role="status" v-if="this.$nuxt.$loading.show">
+								<span class="sr-only">Loading...</span>
+							</div>
 							Login
 						</button>
 					</div>
@@ -69,12 +69,16 @@ export default {
 
 	methods: {
 		login() {
+			this.$nuxt.$loading.start()
 			this.errors.clear()
 			this.$auth.loginWith('local', {
 				data: this.form
 			})
 			.then()
-			.catch(({ response }) => this.errors.fill(response.data))
+			.catch(({ response }) => {
+				// console.log(response)
+				this.errors.fill(response.data)
+			})
 		}
 	}
 }

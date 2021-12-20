@@ -20,7 +20,7 @@ export const mutations = {
 
 export const actions = {
 	async get({ commit }, contentId) {
-		let quiz = await this.$axios.$get('/my/quiz', {
+		let quiz = await this.$axios.$get('/v2/quiz', {
 			params: {
 				content_id: contentId
 			}
@@ -30,7 +30,7 @@ export const actions = {
 	},
 
 	async show({ commit }, id) {
-		let quiz = await this.$axios.$get(`/my/quiz/${id}`)
+		let quiz = await this.$axios.$get(`/v2/quiz/${id}`)
 
 		commit('setQuiz', quiz.data)
 	}

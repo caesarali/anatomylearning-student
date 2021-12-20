@@ -19,10 +19,16 @@ $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
 
+$theme-colors: (
+  "default": $green
+);
+
 // Modal Animation Zoom in
 $modal-fade-transform: scale(.8);
 
 // Button Default Color
-$button-default-background-color: $blue !default;
-$button-default-border-color: $blue !default;
+$button-default-background-color: $green !default;
+$button-default-border-color: $green !default;
 $button-default-color: #fff !default;
+
+$border-radius: .35rem;

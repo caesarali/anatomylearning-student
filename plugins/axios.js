@@ -7,6 +7,7 @@ export default function ({ $axios, app, redirect }) {
 	$axios.onError(({ response }) => {
 		if (response.status != 422) {
 			app.$toast.error(response.data.message ?? 'Woops, something wrong...', `Error (${response.status})`)
+			return response
 		}
 	})
 }

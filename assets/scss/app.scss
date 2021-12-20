@@ -9,3 +9,12 @@
 // Cuomponents
 @import 'icon';
 @import 'navs';
+@import 'type';
+
+.row.gap-1 {
+	gap: 10% !important;
+}
+
+.pointer {
+	cursor: pointer;
+}
