@@ -1,7 +1,7 @@
 <template>
 	<div class="row">
-		<div class="col-md-4 mb-1" v-for="quiz in quizList" :key="quiz.id">
-			<div class="card shadow-sm mb-4">
+		<div class="col-md-4" v-for="quiz in quizList" :key="quiz.id">
+			<div class="card border-0 shadow-sm mb-4">
 				<NuxtLink :to="`/quiz/${quiz.id}`" class="card-body p-2 text-decoration-none text-secondary">
 					<div class="media">
 						<img :src="`https://ui-avatars.com/api/?background=e7f8ee&color=38c172&bold=true&name=${quiz.type}`" :alt="quiz.type" class="mr-3 rounded">
@@ -35,7 +35,7 @@ export default {
 
 	computed: {
 		contentId() {
-			return this.$store.state.content.item.id
+			return this.$route.params.id
 		},
 
 		quizList() {

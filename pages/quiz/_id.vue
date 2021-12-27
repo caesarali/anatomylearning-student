@@ -1,29 +1,79 @@
 <template>
-	<div class="container">
-		<NuxtLink :to="`/content/${quiz.content_id}#quiz`" class="text-decoration-none text-success mb-3 d-block">
-			<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-			</svg>
-			{{ quiz.name }}
-		</NuxtLink>
+	<container>
+		<template #toolbar>
+			<nav class="navbar navbar-expand-sm navbar-light bg-white border-top shadow-sm">
+				<div class="container">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item">
+							<NuxtLink :to="`/content/${quiz.content_id}#quiz`" class="nav-link text-success pl-0">
+								<svg class="align-top" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+								</svg>
+								{{ quiz.name }}
+							</NuxtLink>
+						</li>
+					</ul>
+					<ul class="navbar-nav pr-3">
+						<li class="nav-item">
+							<span class="nav-link" :class="(number < 2) ? 'disabled' : 'pointer'" @click="show(number-1)">
+								<svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+								</svg>
+							</span>
+						</li>
+						<li class="nav-item">
+							<span class="nav-link" :class="(number >= questions.length) ? 'disabled' : 'pointer'" @click="show(number+1)">
+								<svg width="22" height="22" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+								</svg>
+							</span>
+						</li>
+						<li class="nav-item d-flex align-center">
+							<a href="#" class="nav-link text-success">
+								<svg class="align-top" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+								</svg>
+								SUBMIT
+							</a>
+						</li>
+						<li class="nav-item" v-if="duration">
+							<span class="nav-link text-success" :class="{ 'text-danger': duration <= 30 }">
+								<span class="h4 mb-0">
+									{{ timer }}
+								</span>
+							</span>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</template>
 
-		<ul class="list-group list-group-flush">
-			<li class="list-group-item" v-for="(item, index) in quiz?.questions" :key="index">
-				<content-quiz-mc :item="item" />
-			</li>
-		</ul>
-
-		<button type="button" class="btn btn-default" @click="submit">
-			Submit
-		</button>
-	</div>
+		<div class="row">
+			<div class="col-md-9">
+				<template v-for="(item, index) in quiz?.questions">
+					<div :key="index" v-show="index+1 == number">
+						<component :is="`quiz-${quiz.type}`" :item="item" />
+					</div>
+				</template>
+			</div>
+			<div class="col-md text-center">
+				<template v-for="(item, index) in quiz?.questions">
+					<button type="button" class="btn btn-outline-success shadow-sm mr-2" style="width: 45px; height: 45px" :class="{ 'active': index+1 == number }" :key="index" @click="show(index+1)">
+						{{ index+1 }}
+					</button>
+				</template>
+			</div>
+		</div>
+	</container>
 </template>
 
 <script>
 export default {
 	data: () => ({
-		time_taken: null,
-		questions: []
+		number: 1,
+		duration: 0,
+		time_taken: 0,
+		questions: [],
 	}),
 
 	computed: {
@@ -32,10 +82,34 @@ export default {
 		},
 		quiz() {
 			return this.$store.state.quiz.quiz
+		},
+		timer() {
+			let timer = this.duration
+			let minutes = parseInt(timer / 60, 10)
+			let seconds = parseInt(timer % 60, 10)
+
+			minutes = minutes < 10 ? "0" + minutes : minutes;
+			seconds = seconds < 10 ? "0" + seconds : seconds;
+
+			return `${minutes}:${seconds}`
 		}
 	},
 
 	methods: {
+		start(duration) {
+			this.duration = duration
+			let timer = setInterval(() => {
+				if (this.duration > 0) {
+					this.duration--
+				} else {
+					clearInterval(timer)
+				}
+			}, 1000)
+		},
+		show(number) {
+			this.number = number
+		},
+
 		submit() {
 			this.$axios.post(`/v2/quiz`, {
 				id: this.id,
@@ -51,12 +125,15 @@ export default {
 
 	async fetch() {
 		await this.$store.dispatch('quiz/show', this.id)
+
 		this.questions = this.quiz.questions.map((question) => {
 			return {
 				id: question.id,
 				answer: ''
 			}
 		})
-	},
+
+		this.start(this.quiz.duration * 60)
+	}
 }
 </script>

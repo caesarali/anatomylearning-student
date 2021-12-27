@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<container>
 		<p class="lead">Hi, {{ $auth.user.name }}.</p>
 
 		<div class="row">
@@ -19,7 +19,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</container>
 </template>
 
 <script>

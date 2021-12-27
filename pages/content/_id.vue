@@ -1,15 +1,21 @@
 <template>
-	<div class="container">
-		<NuxtLink to="/home" class="text-decoration-none text-success mb-3 d-block">
-			<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-			</svg>
-			Back
-		</NuxtLink>
+	<container>
+		<template #toolbar>
+			<nav class="bg-white border-top shadow-sm">
+				<div class="container">
+					<NuxtLink to="/home" class="text-decoration-none text-success d-block py-3">
+						<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+						</svg>
+						Back
+					</NuxtLink>
+				</div>
+			</nav>
+		</template>
 
 		<b-tabs content-class="mt-3" justified no-nav-style nav-class="nav-custom">
-			<b-tab :title="content.topic ?? 'About'" lazy :active="isActive('#intro')" @click="setActive('#intro')">
-				<content-intro />
+			<b-tab :title="content.topic ?? 'About'" :active="isActive('#intro')" @click="setActive('#intro')">
+				{{ content.introduction }}
 			</b-tab>
 
 			<b-tab title="Worksheets" lazy :active="isActive('#worksheet')" @click="setActive('#worksheet')">
@@ -17,7 +23,7 @@
 			</b-tab>
 
 			<b-tab title="Quiz" lazy :active="isActive('#quiz')" @click="setActive('#quiz')">
-				<content-quiz />
+				<quiz />
 			</b-tab>
 
 			<b-tab title="Video" lazy :active="isActive('#video')" @click="setActive('#video')">
@@ -28,7 +34,7 @@
 				<p>Coming soon...</p>
 			</b-tab>
 		</b-tabs>
-	</div>
+	</container>
 </template>
 
 <script>

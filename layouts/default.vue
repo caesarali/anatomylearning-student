@@ -42,7 +42,7 @@
 			<ServerList />
 		</b-modal>
 
-		<section id="content" class="my-4">
+		<section>
 			<Nuxt />
 		</section>
 	</div>

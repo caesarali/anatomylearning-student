@@ -1,7 +1,7 @@
 <template>
 	<div class="row">
 		<div class="col-md-4" v-for="worksheet in worksheets" :key="worksheet.id">
-			<div class="card shadow-sm">
+			<div class="card border-0 shadow-sm">
 				<NuxtLink :to="`/worksheet/${worksheet.id}`" class="card-body p-2 text-secondary text-decoration-none">
 					<div class="media">
 						<img :src="`https://ui-avatars.com/api/?background=e7f8ee&color=38c172&bold=true&name=${worksheet.name}`" :alt="worksheet.name" class="mr-3 rounded">
@@ -29,8 +29,8 @@
 <script>
 export default {
 	computed: {
-		content() {
-			return this.$store.state.content.item
+		contentId() {
+			return this.$route.params.id
 		},
 		worksheets() {
 			return this.$store.state.worksheet.list
@@ -38,7 +38,7 @@ export default {
 	},
 
 	mounted() {
-		this.$store.dispatch('worksheet/get', this.content.id)
+		this.$store.dispatch('worksheet/get', this.contentId)
 	}
 }
 </script>
