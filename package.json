@@ -9,12 +9,12 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/auth-next": "5.0.0-1637745161.ea53f98",
+    "@nuxtjs/auth-next": "5.0.0-1640566195.af3e3e1",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/pwa": "^3.3.5",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
-    "core-js": "^3.20.0",
+    "core-js": "^3.20.1",
     "nuxt": "^2.15.7"
   },
   "devDependencies": {
@@ -22,6 +22,6 @@
     "fibers": "^5.0.0",
     "sass": "^1.45.1",
     "sass-loader": "^10.2.0",
-    "vue-template-babel-compiler": "^1.0.7"
+    "vue-template-babel-compiler": "^1.0.8"
   }
 }
