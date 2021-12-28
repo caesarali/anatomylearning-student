@@ -23,7 +23,7 @@
 			</b-tab>
 
 			<b-tab title="Quiz" lazy :active="isActive('#quiz')" @click="setActive('#quiz')">
-				<quiz />
+				<content-quiz />
 			</b-tab>
 
 			<b-tab title="Video" lazy :active="isActive('#video')" @click="setActive('#video')">
@@ -62,8 +62,8 @@ export default {
 
 	async fetch() {
 		await this.$store.dispatch('content/show', this.id)
-		await this.$store.commit('worksheet/reset')
-		await this.$store.commit('quiz/reset')
+		// await this.$store.commit('worksheet/reset')
+		// await this.$store.commit('quiz/reset')
 	},
 }
 </script>

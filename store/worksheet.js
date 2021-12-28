@@ -20,7 +20,7 @@ export const mutations = {
 
 export const actions = {
 	get({ commit }, contentId) {
-		this.$axios.get('/my/worksheet', {
+		this.$axios.get('/v2/worksheet', {
 			params: {
 				content_id: contentId
 			}
@@ -31,7 +31,7 @@ export const actions = {
 	},
 
 	show({ commit }, id) {
-		this.$axios.get(`/my/worksheet/${id}`).then(({ data }) => {
+		this.$axios.get(`/v2/worksheet/${id}`).then(({ data }) => {
 			commit('setWorksheet', data.data)
 		})
 	}

@@ -1,5 +1,5 @@
 <template>
-	<container>
+	<container v-if="!$fetchState.pending">
 		<template #toolbar>
 			<nav class="navbar navbar-expand-sm navbar-light bg-white border-top shadow-sm">
 				<div class="container">
@@ -13,13 +13,18 @@
 							</NuxtLink>
 						</li>
 					</ul>
-					<ul class="navbar-nav pr-3">
+					<ul class="navbar-nav" v-if="questions.length">
 						<li class="nav-item">
 							<span class="nav-link" :class="(number < 2) ? 'disabled' : 'pointer'" @click="show(number-1)">
 								<svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
 								</svg>
 							</span>
+						</li>
+						<li class="nav-item">
+							<div class="nav-link">
+								{{ `${number}/${questions.length}` }}
+							</div>
 						</li>
 						<li class="nav-item">
 							<span class="nav-link" :class="(number >= questions.length) ? 'disabled' : 'pointer'" @click="show(number+1)">
@@ -29,7 +34,7 @@
 							</span>
 						</li>
 						<li class="nav-item d-flex align-center">
-							<a href="#" class="nav-link text-success">
+							<a href="#" class="nav-link text-success" @click="submit">
 								<svg class="align-top" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
 								</svg>
@@ -52,13 +57,13 @@
 			<div class="col-md-9">
 				<template v-for="(item, index) in quiz?.questions">
 					<div :key="index" v-show="index+1 == number">
-						<component :is="`quiz-${quiz.type}`" :item="item" />
+						<component :is="`quiz-${quiz.type}`" :item="item" :form="questions[index]" />
 					</div>
 				</template>
 			</div>
 			<div class="col-md text-center">
 				<template v-for="(item, index) in quiz?.questions">
-					<button type="button" class="btn btn-outline-success shadow-sm mr-2" style="width: 45px; height: 45px" :class="{ 'active': index+1 == number }" :key="index" @click="show(index+1)">
+					<button type="button" class="btn btn-white shadow-sm mx-1" :class="{ 'active': index+1 == number, 'done': questions[index]?.answer != '' }" style="width: 45px; height: 45px" :key="index" @click="show(index+1)">
 						{{ index+1 }}
 					</button>
 				</template>
@@ -101,25 +106,29 @@ export default {
 			let timer = setInterval(() => {
 				if (this.duration > 0) {
 					this.duration--
+					this.time_taken++
 				} else {
 					clearInterval(timer)
 				}
 			}, 1000)
 		},
+
 		show(number) {
 			this.number = number
 		},
 
 		submit() {
-			this.$axios.post(`/v2/quiz`, {
-				id: this.id,
-				time_taken: this.time_taken ?? 10,
-				questions: this.questions
-			})
-			.then(({ data }) => {
-				this.$router.push(`/content/${this.quiz.content_id}#quiz`)
-				this.$toast.success(data.message ?? 'Good job, kids!')
-			})
+			if (confirm('Are you sure to submit your quiz sheet ?')) {
+				this.$axios.post(`/v2/quiz`, {
+					id: this.id,
+					time_taken: Math.ceil(this.time_taken / 60),
+					questions: this.questions
+				})
+				.then(({ data }) => {
+					this.$router.push(`/content/${this.quiz.content_id}#quiz`)
+					this.$toast.success(data.message ?? 'Good job, kids!')
+				})
+			}
 		}
 	},
 

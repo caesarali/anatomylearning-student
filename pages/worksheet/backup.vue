@@ -13,17 +13,6 @@
 							</NuxtLink>
 						</li>
 					</ul>
-
-					<ul class="navbar-nav">
-						<li class="nav-item d-flex align-center">
-							<a href="#" class="nav-link text-success" @click="submit">
-								<svg class="align-top" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-								</svg>
-								SUBMIT
-							</a>
-						</li>
-					</ul>
 				</div>
 			</nav>
 		</template>
@@ -32,7 +21,7 @@
 			<div class="col-md-9">
 				<p>
 					<strong>Question :</strong> <br>
-					{{ item?.question ?? 'Empty...' }}
+					{{ item?.question }}
 				</p>
 			</div>
 		</div>
@@ -79,19 +68,15 @@
 					</div>
 				</div>
 			</div>
-			<!-- <div class="col-md-3">
+			<div class="col-md-3">
 				<div class="d-flex flex-wrap justify-content-center mb-3">
 					<a href="#" class="border rounded m-1 text-center text-secondary text-decoration-none" style="height: 50px; width: 50px" v-for="(item, index) in worksheet?.items" :key="item.id" @click="moveTo(index)">
 						<strong>{{ index+1 }}</strong>
 					</a>
 				</div>
-			</div> -->
-			<div class="col-md text-center">
-				<template v-for="(item, index) in worksheet?.items">
-					<button type="button" class="btn btn-white shadow-sm m-1" :class="{ 'active': index == item_index }" style="width: 45px; height: 45px" :key="index" @click="show(index)">
-						{{ index+1 }}
-					</button>
-				</template>
+				<button type="button" class="btn btn-success btn-block" @click="submit" v-if="!worksheetIsComplete">
+					Submit
+				</button>
 			</div>
 		</div>
 	</container>
@@ -105,12 +90,16 @@
 import Error from '~/libs/error'
 export default {
 	data: () => ({
-		item_index: 0,
+		index: 0,
 		form: {
 			answer: []
 		},
 		errors: new Error,
 	}),
+
+	async fetch() {
+		await this.$store.dispatch('worksheet/show', this.id)
+	},
 
 	computed: {
 		id() {
@@ -123,15 +112,11 @@ export default {
 			return this.worksheet.progress == 'Complete'
 		},
 		item() {
-			return this.worksheet.items?.at(this.item_index)
+			return this.worksheet.items?.at(this.index)
 		}
 	},
 
 	methods: {
-		show(index) {
-			this.item_index = index
-		},
-
 		async moveTo(index) {
 			if (this.worksheetIsComplete) {
 				this.index = index
@@ -167,27 +152,27 @@ export default {
 		}
 	},
 
-	async fetch() {
-		await this.$store.dispatch('worksheet/show', this.id)
+	watch: {
+		item(item) {
+			this.errors.clear()
+			this.form.answer = []
+
+			if (item.answer?.length) {
+				this.form.answer.push(...item.answer)
+			}
+
+			let emptyInput = new Array(item?.keys?.length - (item?.answer?.length ?? 0));
+
+			for (let index = 0; index < emptyInput.length; index++) {
+				emptyInput[index] = null;
+			}
+
+			this.form.answer.push(...emptyInput)
+		}
 	},
 
-	// watch: {
-	// 	item(item) {
-	// 		this.errors.clear()
-	// 		this.form.answer = []
-
-	// 		if (item.answer?.length) {
-	// 			this.form.answer.push(...item.answer)
-	// 		}
-
-	// 		let emptyInput = new Array(item?.keys?.length - (item?.answer?.length ?? 0));
-
-	// 		for (let index = 0; index < emptyInput.length; index++) {
-	// 			emptyInput[index] = null;
-	// 		}
-
-	// 		this.form.answer.push(...emptyInput)
-	// 	}
-	// }
+	mounted() {
+		console.log(this.$store.state.worksheet)
+	}
 }
 </script>

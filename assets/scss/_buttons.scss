@@ -1,0 +1,18 @@
+.btn {
+	&.btn-white {
+		background-color: $white;
+		color: $gray-600;
+
+		&.done,
+		&:hover,
+		&:active {
+			background-color: lighten($green, 40%);
+			color: $green;
+		}
+
+		&.active {
+			background-color: $green;
+			color: $white
+		}
+	}
+}

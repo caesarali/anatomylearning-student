@@ -52,18 +52,13 @@ export default {
 
 	props: {
 		item: Object,
+		form: Object,
 	},
 
 	watch: {
 		answer(value) {
-			this.question.answer = value
+			this.form.answer = value
 		}
-	},
-
-	computed: {
-		question() {
-			return this.$parent.questions.find((question) => question.id == this.item.id)
-		},
 	},
 }
 </script>
