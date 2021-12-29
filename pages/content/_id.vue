@@ -62,8 +62,6 @@ export default {
 
 	async fetch() {
 		await this.$store.dispatch('content/show', this.id)
-		// await this.$store.commit('worksheet/reset')
-		// await this.$store.commit('quiz/reset')
 	},
 }
 </script>

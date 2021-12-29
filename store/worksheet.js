@@ -19,20 +19,19 @@ export const mutations = {
 }
 
 export const actions = {
-	get({ commit }, contentId) {
-		this.$axios.get('/v2/worksheet', {
+	async get({ commit }, contentId) {
+		let worksheets = await this.$axios.$get('/v2/worksheet', {
 			params: {
 				content_id: contentId
 			}
 		})
-		.then(({ data }) => {
-			commit('setList', data.data)
-		})
+
+		commit('setList', worksheets.data)
 	},
 
-	show({ commit }, id) {
-		this.$axios.get(`/v2/worksheet/${id}`).then(({ data }) => {
-			commit('setWorksheet', data.data)
-		})
+	async show({ commit }, id) {
+		let worksheet = await this.$axios.$get(`/v2/worksheet/${id}`)
+
+		commit('setWorksheet', worksheet.data)
 	}
 }

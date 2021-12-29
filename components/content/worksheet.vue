@@ -9,11 +9,11 @@
 							<p class="mb-1">
 								<strong>{{ worksheet.name }}</strong>
 							</p>
-							<p class="mb-0">
-								<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon text-success align-text-top mr-1" v-if="worksheet.progress == 'Complete'">
+							<p class="mb-0 text-capitalize">
+								<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon text-success align-text-top mr-1" v-if="worksheet.progress == 'complete'">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
 								</svg>
-								<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon text-secondary align-text-top mr-1" v-else>
+								<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon text-secondary align-text-top mr-1" v-if="worksheet.progress == 'on progress'">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
 								</svg>
 								{{ worksheet.progress }}

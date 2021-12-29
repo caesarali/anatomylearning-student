@@ -2,6 +2,7 @@ const toast = {
 	success(message) {
 		$nuxt.$bvToast.toast(message, {
 			title: 'Success',
+			variant: 'success'
 		})
 	},
 

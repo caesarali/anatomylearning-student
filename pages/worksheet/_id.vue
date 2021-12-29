@@ -6,7 +6,7 @@
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
 							<NuxtLink :to="`/content/${worksheet.content_id}#worksheet`" class="nav-link pl-0 text-success">
-								<svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<svg width="24" height="24" class="align-top" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
 								</svg>
 								{{ worksheet.name }}
@@ -15,82 +15,57 @@
 					</ul>
 
 					<ul class="navbar-nav">
-						<li class="nav-item d-flex align-center">
-							<a href="#" class="nav-link text-success" @click="submit">
-								<svg class="align-top" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+						<li class="nav-item">
+							<span class="nav-link" :class="(number < 2) ? 'disabled' : 'pointer'" @click="show(item_index-1)">
+								<svg width="22" height="22" class="align-top" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
 								</svg>
-								SUBMIT
-							</a>
+							</span>
 						</li>
+						<li class="nav-item">
+							<span class="nav-link font-weight-bold">
+								{{ `${number}/${items.length}` }}
+							</span>
+						</li>
+						<li class="nav-item">
+							<span class="nav-link" :class="(number >= items.length) ? 'disabled' : 'pointer'" @click="show(item_index+1)">
+								<svg width="22" height="22" class="align-top" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+								</svg>
+							</span>
+						</li>
+						<template v-if="! worksheetIsComplete">
+							<li class="nav-item d-flex align-center">
+								<a href="#" class="nav-link text-secondary" :class="{ 'disabled': saving }" @click="save">
+									{{ saving ? 'Saving progress...' : 'SAVE' }}
+								</a>
+							</li>
+							<li class="nav-item d-flex align-center">
+								<a href="#" class="nav-link text-success" @click="submit">
+									SUBMIT
+								</a>
+							</li>
+						</template>
 					</ul>
 				</div>
 			</nav>
 		</template>
 
-		<div class="row">
-			<div class="col-md-9">
-				<p>
-					<strong>Question :</strong> <br>
-					{{ item?.question ?? 'Empty...' }}
-				</p>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-9 ">
-				<div class="row">
-					<div class="col-md-4">
-						<b-img lazy fluid rounded :src="item?.picture" class="border"></b-img>
-					</div>
-					<div class="col-md-8">
-						<form ref="form">
-							<div class="form-group" v-for="(numb, i) in item?.input_required" :key="numb">
-								<div class="input-group"
-									:class="{
-											'is-invalid': errors.has('answer') && $isEmpty(form.answer[i]) || worksheetIsComplete && !$isMatch(item.answer[i], item.keys[i]),
-											'is-valid': worksheetIsComplete && $isMatch(item.answer[i], item.keys[i])
-									}">
-									<div class="input-group-prepend">
-										<span class="input-group-text bg-white border-right-0"
-											:class="{
-												'border border-danger': errors.has('answer') && $isEmpty(form.answer[i]) || worksheetIsComplete && !$isMatch(item.answer[i], item.keys[i]),
-												'border border-success': worksheetIsComplete && $isMatch(item.answer[i], item.keys[i])
-											}">
-											{{ numb }}.
-										</span>
-									</div>
-									<input type="search" v-model="form.answer[i]" class="border-left-0 form-control bg-white"
-										:readonly="worksheetIsComplete"
-										:class="{
-											'is-invalid': errors.has('answer') && $isEmpty(form.answer[i]) || worksheetIsComplete && !$isMatch(item.answer[i], item.keys[i]),
-											'is-valid': worksheetIsComplete && $isMatch(item.answer[i], item.keys[i])
-										}"
-										placeholder=". . . . . . ?" required>
-								</div>
-								<div class="invalid-feedback" v-if="!worksheetIsComplete">
-									Please filled this before switch to the next page.
-								</div>
-								<div class="invalid-feedback" v-else>
-									The correct answer is "<u>{{ item.keys[i] }}</u>"
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-			<!-- <div class="col-md-3">
-				<div class="d-flex flex-wrap justify-content-center mb-3">
-					<a href="#" class="border rounded m-1 text-center text-secondary text-decoration-none" style="height: 50px; width: 50px" v-for="(item, index) in worksheet?.items" :key="item.id" @click="moveTo(index)">
-						<strong>{{ index+1 }}</strong>
-					</a>
-				</div>
-			</div> -->
-			<div class="col-md text-center">
+		<div class="row" v-if="!$fetchState.pending">
+			<div class="col-md">
 				<template v-for="(item, index) in worksheet?.items">
-					<button type="button" class="btn btn-white shadow-sm m-1" :class="{ 'active': index == item_index }" style="width: 45px; height: 45px" :key="index" @click="show(index)">
+					<div :key="item.id" v-show="index === item_index">
+						<worksheet-item :readonly="worksheetIsComplete" :item="item" :form="items[index]" />
+					</div>
+				</template>
+			</div>
+			<div class="col-md-auto">
+				<template v-for="(item, index) in worksheet?.items">
+					<button type="button" class="btn btn-white shadow-sm m-1" :class="{ 'active': index == item_index }" style="width: 42px; height: 42px" :key="item.id" @click="show(index)">
 						{{ index+1 }}
 					</button>
+
+					<br :key="index" v-if="((index+1) % 5) === 0">
 				</template>
 			</div>
 		</div>
@@ -106,13 +81,15 @@ import Error from '~/libs/error'
 export default {
 	data: () => ({
 		item_index: 0,
-		form: {
-			answer: []
-		},
+		items: [],
 		errors: new Error,
+		saving: false,
 	}),
 
 	computed: {
+		number() {
+			return this.item_index+1
+		},
 		id() {
 			return this.$route.params.id
 		},
@@ -120,11 +97,8 @@ export default {
 			return this.$store.state.worksheet.worksheet
 		},
 		worksheetIsComplete() {
-			return this.worksheet.progress == 'Complete'
+			return this.worksheet.progress == 'complete'
 		},
-		item() {
-			return this.worksheet.items?.at(this.item_index)
-		}
 	},
 
 	methods: {
@@ -132,62 +106,48 @@ export default {
 			this.item_index = index
 		},
 
-		async moveTo(index) {
-			if (this.worksheetIsComplete) {
-				this.index = index
-			} else {
-				await this.$axios.post(`/my/worksheet/${this.worksheet.id}/items`, {
-					item_id: this.item.id,
-					answer: this.form.answer.filter((item) => item != null && item != ''),
+		save() {
+			if (!this.saving) {
+				this.saving = true
+				this.$axios.post(`/v2/worksheet/${this.id}`, {
+					items: this.items
 				})
-				.then(() => {
-					this.$store.dispatch('worksheet/show', this.id)
-					this.index = index
-				})
-				.catch(({ response }) => {
-					this.errors.fill(response.data)
+				.then(({ data }) => {
+					this.saving = false
+					this.$toast.success(data.message ?? 'Saved.')
 				})
 			}
 		},
 
-		async submit() {
-			if (! this.worksheetIsComplete) {
-				await this.$axios.post(`/my/worksheet/${this.worksheet.id}/items`, {
-					item_id: this.item.id,
-					answer: this.form.answer.filter((item) => item != null && item != ''),
+		submit() {
+			if (confirm('Are you sure to submit your worksheet progress ?')) {
+				this.$axios.post(`/v2/worksheet/${this.id}`, {
+					items: this.items,
 					page: 'finish'
 				})
 				.then(({ data }) => {
-					alert(data.message)
-					this.$store.dispatch('worksheet/show', this.id)
-					this.index = 0
+					this.$toast.success(data.message ?? 'Good job, kids!')
+					this.$nuxt.refresh()
 				})
-				.catch(({ response }) => this.errors.fill(response.data))
 			}
 		}
 	},
 
 	async fetch() {
 		await this.$store.dispatch('worksheet/show', this.id)
+
+		this.items = this.worksheet.items.map(item => {
+			let answer = new Array(item.input_required);
+
+			for (let index = 0; index < answer.length; index++) {
+				answer[index] = this.$isEmpty(item.answer) ? '' : item.answer[index] ;
+			}
+
+			return {
+				id: item.id,
+				answer: answer
+			}
+		})
 	},
-
-	// watch: {
-	// 	item(item) {
-	// 		this.errors.clear()
-	// 		this.form.answer = []
-
-	// 		if (item.answer?.length) {
-	// 			this.form.answer.push(...item.answer)
-	// 		}
-
-	// 		let emptyInput = new Array(item?.keys?.length - (item?.answer?.length ?? 0));
-
-	// 		for (let index = 0; index < emptyInput.length; index++) {
-	// 			emptyInput[index] = null;
-	// 		}
-
-	// 		this.form.answer.push(...emptyInput)
-	// 	}
-	// }
 }
 </script>

@@ -16,7 +16,7 @@
 					<ul class="navbar-nav" v-if="questions.length">
 						<li class="nav-item">
 							<span class="nav-link" :class="(number < 2) ? 'disabled' : 'pointer'" @click="show(number-1)">
-								<svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<svg class="align-top" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
 								</svg>
 							</span>
@@ -28,7 +28,7 @@
 						</li>
 						<li class="nav-item">
 							<span class="nav-link" :class="(number >= questions.length) ? 'disabled' : 'pointer'" @click="show(number+1)">
-								<svg width="22" height="22" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+								<svg class="align-top" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
 								</svg>
 							</span>
@@ -54,18 +54,19 @@
 		</template>
 
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-md">
 				<template v-for="(item, index) in quiz?.questions">
-					<div :key="index" v-show="index+1 == number">
+					<div :key="item.id" v-show="index+1 == number">
 						<component :is="`quiz-${quiz.type}`" :item="item" :form="questions[index]" />
 					</div>
 				</template>
 			</div>
-			<div class="col-md text-center">
+			<div class="col-md-auto" v-if="quiz?.questions.length > 1">
 				<template v-for="(item, index) in quiz?.questions">
-					<button type="button" class="btn btn-white shadow-sm mx-1" :class="{ 'active': index+1 == number, 'done': questions[index]?.answer != '' }" style="width: 45px; height: 45px" :key="index" @click="show(index+1)">
+					<button type="button" class="btn btn-white shadow-sm mx-1" :class="{ 'active': index+1 == number, 'done': questions[index]?.answer != '' }" style="width: 45px; height: 45px" :key="item.id" @click="show(index+1)">
 						{{ index+1 }}
 					</button>
+					<br :key="index" v-if="((index+1) % 5) === 0">
 				</template>
 			</div>
 		</div>

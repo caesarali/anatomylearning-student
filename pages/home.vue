@@ -33,6 +33,8 @@ export default {
 	async fetch() {
 		await this.$store.dispatch('content/get')
 		await this.$store.commit('content/setItem', {})
+		await this.$store.commit('worksheet/reset')
+		await this.$store.commit('quiz/reset')
 	}
 }
 </script>
