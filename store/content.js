@@ -14,15 +14,19 @@ export const mutations = {
 }
 
 export const actions = {
-	get({ commit }) {
-		this.$axios.get('/my/content').then(({ data }) => {
-			commit('setList', data.data)
+	async get({ commit }, parentId = null) {
+		let contents = await this.$axios.$get('/v2/content', {
+			params: {
+				parent_id: parentId
+			}
 		})
+
+		commit('setList', contents.data)
 	},
 
-	show({ commit }, id) {
-		this.$axios.get(`/my/content/${id}`).then(({ data }) => {
-			commit('setItem', data.data)
-		})
+	async show({ commit }, id) {
+		let content = await this.$axios.$get(`/my/content/${id}`)
+
+		commit('setItem', content.data)
 	}
 }

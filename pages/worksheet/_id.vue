@@ -1,13 +1,13 @@
 <template>
-	<container>
+	<container v-if="!$fetchState.pending">
 		<template #toolbar>
 			<nav class="navbar navbar-expand-lg navbar-light bg-white border-top shadow-sm">
 				<div class="container">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
 							<NuxtLink :to="`/content/${worksheet.content_id}#worksheet`" class="nav-link pl-0 text-success">
-								<svg width="24" height="24" class="align-top" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+								<svg width="22" height="22" class="align-top mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
 								</svg>
 								{{ worksheet.name }}
 							</NuxtLink>
@@ -51,7 +51,7 @@
 			</nav>
 		</template>
 
-		<div class="row" v-if="!$fetchState.pending">
+		<div class="row">
 			<div class="col-md">
 				<template v-for="(item, index) in worksheet?.items">
 					<div :key="item.id" v-show="index === item_index">

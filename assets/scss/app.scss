@@ -8,6 +8,7 @@
 
 // Cuomponents
 @import 'buttons';
+@import 'glassmorphism';
 @import 'icon';
 @import 'navs';
 @import 'type';
@@ -18,4 +19,8 @@
 
 .pointer {
 	cursor: pointer;
+}
+
+.bg-body {
+	background-color: $body-bg;
 }
