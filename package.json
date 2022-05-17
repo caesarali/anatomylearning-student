@@ -18,7 +18,7 @@
     "nuxt": "^2.15.7"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.16.7",
+    "@babel/plugin-proposal-optional-chaining": "^7.17.12",
     "fibers": "^5.0.1",
     "sass": "^1.51.0",
     "sass-loader": "^10.2.0",
