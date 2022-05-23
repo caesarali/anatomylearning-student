@@ -20,7 +20,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.17.12",
     "fibers": "^5.0.1",
-    "sass": "^1.52.0",
+    "sass": "^1.52.1",
     "sass-loader": "^10.2.0",
     "vue-template-babel-compiler": "^1.2.0"
   }
