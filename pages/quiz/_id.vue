@@ -120,8 +120,7 @@ export default {
 
 		submit() {
 			if (confirm('Are you sure to submit your quiz sheet ?')) {
-				this.$axios.post(`/v2/quiz`, {
-					id: this.id,
+				this.$axios.post(`/v2/quiz/${this.id}`, {
 					time_taken: Math.ceil(this.time_taken / 60),
 					questions: this.questions
 				})

@@ -8,7 +8,7 @@
 				Back
 			</NuxtLink>
 
-			<p class="lead m-0 text-capitalize" v-else>Hi, {{ $auth.user.name }}.</p>
+			<p class="lead m-0 text-capitalize text-secondary" v-else>Hi, {{ $auth.user.name }} !</p>
 
 			<div class="btn-group btn-group-sm ml-auto rounded shadow-sm" role="group" aria-label="Basic example">
 				<button type="button" class="btn btn-white" :class="{ 'done': view === 'list' }" @click="view = 'list'">
@@ -24,7 +24,7 @@
 			</div>
 		</div>
 
-		<div class="row row-cols-1" :class="{ 'rowrow-cols-md-2 row-cols-lg-3': view === 'grid' }">
+		<div class="row row-cols-1" :class="{ 'row-cols-md-2 row-cols-lg-3': view === 'grid' }">
 			<div class="col" v-for="(content) in contents" :key="content.id">
 				<div class="card border-0 shadow-sm mb-3">
 					<div class="card-body p-3">

@@ -45,7 +45,7 @@
 								</template>
 
 								<b-dropdown-text class="text-secondary">
-									Hi, <span class="text-capitalize">{{ $auth.user.name }}</span> !
+									Hi, <span class="text-capitalize">{{ $auth.user.name }}</span>
 								</b-dropdown-text>
 
 								<div class="dropdown-divider"></div>
