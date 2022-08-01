@@ -22,6 +22,6 @@
     "fibers": "^5.0.2",
     "sass": "^1.54.0",
     "sass-loader": "^10.2.0",
-    "vue-template-babel-compiler": "^1.2.0"
+    "vue-template-babel-compiler": "^2.0.0"
   }
 }
