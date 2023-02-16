@@ -15,12 +15,11 @@
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.27.2",
-    "nuxt": "^3.2.0"
-  },
+    "nuxt": "^3.2.0",
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.20.7",
     "fibers": "^5.0.3",
-    "sass": "^1.58.0",
+    "sass": "^1.58.1",
     "sass-loader": "^13.2.0",
     "vue-template-babel-compiler": "^2.0.0"
   }
